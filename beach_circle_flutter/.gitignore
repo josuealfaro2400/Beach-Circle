@@ -12,6 +12,8 @@ lib/firebase_options.dart
 # Ignore my secret API keys
 lib/email_config.dart
 
+# Mapbox
+lib/mapbox.dart
 # Keystores
 *.jks
 *.keystore
