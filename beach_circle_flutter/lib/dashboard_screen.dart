@@ -502,7 +502,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // ---------- Weather Bar  ------------
   final _weatherService = WeatherServices(
-    'd947beb08a254433a6949b94bf6dccc1',
+    const String.fromEnvironment('OPENWEATHER_API_KEY'),
   ); //API key
 
   Weather? _csulbWeather; //Weather at CSULb
