@@ -33,8 +33,6 @@ app/build/
 android/local.properties
 android/.gradle
 android/captures/
-android/gradlew
-android/gradlew.bat
 
 # iOS specific
 ios/Flutter/Generated.xcconfig
@@ -63,8 +61,4 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-lib\main.dart
-
-node_modules
-functions\node_modules
-node_modules
+node_modules/
