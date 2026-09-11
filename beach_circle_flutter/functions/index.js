@@ -6,9 +6,9 @@ const { getMessaging } = require("firebase-admin/messaging");
 initializeApp();
 const db = getFirestore();
 
-// deplow line: firebase deploy --only functions
+// deploy line: firebase deploy --only functions
 
-// ── Helper: send to all subscribed users ──────────────────────────────
+// Helper: send to all subscribed users
 async function notifySubscribedUsers(prefField, title, body) {
   const usersSnap = await db
     .collection("users")
@@ -38,7 +38,7 @@ async function notifySubscribedUsers(prefField, title, body) {
   }
 }
 
-// ── Trigger 1: New Food Alert ─────────────────────────────────────────
+// Trigger 1: New Food Alert
 exports.onNewFoodAlert = onDocumentCreated("food_alerts/{docId}", async (event) => {
   const data = (event.data && event.data.data) ? event.data.data() : null;
   if (!data) return;
@@ -65,7 +65,7 @@ exports.onNewEventPost = onDocumentCreated("eb_events/{docId}", async (event) =>
 //   const data = event.data?.data();
 //   if (!data) return;
 
-//   const title = `🏠 Dorm Event: ${data.title ?? "Event in your dorm!"}`;
+//   const title = `Dorm Event: ${data.title ?? "Event in your dorm!"}`;
 //   const body = data.description ?? "Check the events board.";
 
 //   await notifySubscribedUsers("notif_dormEvents", title, body);
