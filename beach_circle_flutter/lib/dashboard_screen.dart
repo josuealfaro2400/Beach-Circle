@@ -22,6 +22,7 @@ import 'package:beach_circle_flutter/community_goods/smf/screens/forum_category_
 import 'package:beach_circle_flutter/community_goods/smf/service/forum_service.dart';
 import 'package:beach_circle_flutter/community_goods/smf/screens/create_forum_page_pg.dart';
 import 'package:beach_circle_flutter/moderation/moderation_view_screen.dart';
+import 'package:beach_circle_flutter/moderation/moderator_access.dart';
 
 import 'screens/resources_page.dart';
 
@@ -45,20 +46,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  // NEW FROM GISELLE 4: ADDING MODERATION VIEW
-  static const List<String> adminEmails = [
-    'teef@gmail.com',
-    'reytest@gmail.com',
-    'giselle1@gmail.com',
-    'nguyentheresa204@gmail.com',
-    'josuealfaro8441@gmail.com',
-  ];
-
-  bool get _isModerator {
-    final email = FirebaseAuth.instance.currentUser?.email?.toLowerCase();
-    return email != null &&
-        adminEmails.map((e) => e.toLowerCase()).contains(email);
-  }
+  bool get _isModerator => ModeratorAccess.isModerator;
 
   void _logOut() async {
     await FirebaseAuth.instance.signOut();
@@ -418,7 +406,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   PreferredSizeWidget? _buildAppBar() {
-
     if (_currentIndex == 0 && _homePage == "home") {
       return AppBar(
         automaticallyImplyLeading: false,

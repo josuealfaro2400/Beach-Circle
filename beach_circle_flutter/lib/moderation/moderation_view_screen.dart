@@ -10,27 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:beach_circle_flutter/community_goods/smf/service/forum_service.dart';
+import 'package:beach_circle_flutter/moderation/moderator_access.dart';
 
 class ModerationViewScreen extends StatelessWidget {
   const ModerationViewScreen({super.key, required this.forumService});
 
   final ForumService forumService;
 
-  // mods emails associated with their account
-  static const List<String> adminEmails = [
-    'teef@gmail.com',
-    'reytest@gmail.com',
-    'giselle1@gmail.com',
-    'nguyentheresa204@gmail.com',
-    'josuealfaro8441@gmail.com',
-  ];
-
-  /// checks if user is admin or not
-  bool get isModerator {
-    final email = FirebaseAuth.instance.currentUser?.email?.toLowerCase();
-    return email != null &&
-        adminEmails.map((e) => e.toLowerCase()).contains(email);
-  }
+  bool get isModerator => ModeratorAccess.isModerator;
 
   @override // for those users who somehow got ahold of mods button
   Widget build(BuildContext context) {
@@ -463,11 +450,14 @@ class _ReportsTab extends StatelessWidget {
     required String reportId,
     required String moderatorNote,
   }) async {
-    await FirebaseFirestore.instance.collection('reports').doc(reportId).update({
-      'status': 'closed',
-      'closedAt': FieldValue.serverTimestamp(),
-      'moderatorNote': moderatorNote,
-    });
+    await FirebaseFirestore.instance
+        .collection('reports')
+        .doc(reportId)
+        .update({
+          'status': 'closed',
+          'closedAt': FieldValue.serverTimestamp(),
+          'moderatorNote': moderatorNote,
+        });
   }
 
   Future<void> _deleteReportedContentAndClose({
@@ -1008,8 +998,7 @@ class _FeedbackTab extends StatelessWidget {
                       final category = (data['category'] ?? '').toString();
                       final feature = (data['feature'] ?? '').toString();
                       final userEmail = (data['userEmail'] ?? '').toString();
-                      final status =
-                          (data['status'] ?? 'Submitted').toString();
+                      final status = (data['status'] ?? 'Submitted').toString();
 
                       //If user inputs an invalid response
                       return Card(
@@ -1252,8 +1241,7 @@ class _FeedbackDetailsTabState extends State<_FeedbackDetailsTab> {
     final userEmail = (widget.feedbackData['userEmail'] ?? '--').toString();
     final category = (widget.feedbackData['category'] ?? '--').toString();
     final feature = (widget.feedbackData['feature'] ?? '--').toString();
-    final description =
-        (widget.feedbackData['description'] ?? '--').toString();
+    final description = (widget.feedbackData['description'] ?? '--').toString();
     final helpfulRating =
         widget.feedbackData['helpfulRating']?.toString() ?? '--';
 
