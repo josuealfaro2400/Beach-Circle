@@ -418,15 +418,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   PreferredSizeWidget? _buildAppBar() {
-    final user = FirebaseAuth.instance.currentUser;
-
-    // --- ADMIN LIST ---
-    // Add emails here to give them access to the debug button
-    final List<String> adminEmails = [
-      'teef@gmail.com',
-      'reytest@gmail.com',
-      'giselle1@gmail.com',
-    ];
 
     if (_currentIndex == 0 && _homePage == "home") {
       return AppBar(
