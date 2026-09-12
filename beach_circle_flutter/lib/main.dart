@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
-import 'package:flutter/foundation.dart';
 import 'mapbox.dart';
 import 'firebase_options.dart';
 import 'auth_screen.dart';
@@ -22,7 +21,6 @@ import 'screens/resources_page.dart';
 import 'community_goods/smf/service/moderation_helper.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-
 Future<void> saveUserFcmToken() async {
   final user = FirebaseAuth.instance.currentUser;
   if (user == null) return;
@@ -31,9 +29,10 @@ Future<void> saveUserFcmToken() async {
   debugPrint('FCM TOKEN: $token');
   if (token == null) return;
 
-  await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-    'fcmToken': token,
-  }, SetOptions(merge: true)); // merge: true so you don't overwrite other fields
+  await FirebaseFirestore.instance.collection('users').doc(user.uid).set(
+    {'fcmToken': token},
+    SetOptions(merge: true),
+  ); // merge: true so you don't overwrite other fields
 }
 
 // Background handler (must be top-level function, outside any class)
@@ -48,17 +47,15 @@ void main() async {
   if (kIsWeb) {
     // WEB: Use the keys from the separate file
     FirebaseOptions? firebaseConfigWeb;
-    await Firebase.initializeApp(
-      options: firebaseConfigWeb, 
-    );
+    await Firebase.initializeApp(options: firebaseConfigWeb);
   } else {
     // ANDROID/iOS: Use the google-services.json file automatically
     MapboxOptions.setAccessToken(mapboxAccessToken);
     await Firebase.initializeApp();
   }
 
-  await ModerationHelper.loadBadWords();await ModerationHelper.loadBadWords();
-  
+  await ModerationHelper.loadBadWords();
+
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   //debug
@@ -85,9 +82,7 @@ class MyApp extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return PostLoginInit(
-              child: const DashboardScreen(),
-            );
+            return PostLoginInit(child: const DashboardScreen());
           }
           return const AuthScreen();
         },
@@ -122,54 +117,3 @@ class _PostLoginInitState extends State<PostLoginInit> {
     return widget.child;
   }
 }
-
-
-// import 'package:flutter/material.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/foundation.dart';
-// import 'auth_screen.dart';
-// import 'signup_screen.dart';
-// import 'dashboard_screen.dart';
-// import 'screens/resources_page.dart';
-
-// const bool showResourcesOnly = true;
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   if (!showResourcesOnly) {
-//     if (kIsWeb) {
-//       await Firebase.initializeApp(
-//         //insert stuff here
-//       );
-//     } else {
-//       // ANDROID/iOS: Use the file (google-services.json) automatically
-//       await Firebase.initializeApp();
-//     }
-//   }
-
-//   runApp(const MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home:
-//           showResourcesOnly
-//               ? const ResourcesPage()
-//               : StreamBuilder<User?>(
-//                 stream: FirebaseAuth.instance.authStateChanges(),
-//                 builder: (context, snapshot) {
-//                   if (snapshot.hasData) {
-//                     return const DashboardScreen();
-//                   }
-//                   //Otherwise, show Auth Screen
-//                   return const AuthScreen();
-//                 },
-//               ),
-//     );
-//   }
-// }
