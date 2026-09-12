@@ -1,5 +1,5 @@
 name: beach_circle_flutter
-description: "A new Flutter project."
+description: "Beach Circle, a CSULB-focused campus community and resource app."
 publish_to: "none"
 version: 1.0.0+1
 
@@ -53,8 +53,6 @@ flutter:
     - assets/csulb.geojson
     - assets/bathrooms.txt
     - assets/images/
-    - assets/csulb.geojson
-    - assets/bathrooms.txt
     - assets/en.txt
     - assets/char_map.txt
 
