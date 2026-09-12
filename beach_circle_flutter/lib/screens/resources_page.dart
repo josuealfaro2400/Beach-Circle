@@ -230,14 +230,16 @@ class _ResourcesPageState extends State<ResourcesPage> {
               ),
               const SizedBox(height: 12),
 
-              // Image of CSULB
+              // CSULB visual
               ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: Image.network(
-                  'https://raw.githubusercontent.com/21TN2/Beach-Circle/resourcepage/Bob%20Cole%20Conservatory%20of%20Music%20@%20CSULB.jpeg',
+                child: Container(
                   height: 220,
                   width: double.infinity,
-                  fit: BoxFit.cover,
+                  color: Colors.grey[200],
+                  child: const Center(
+                    child: Icon(Icons.school, size: 72, color: Colors.black54),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
